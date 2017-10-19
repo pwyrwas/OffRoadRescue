@@ -15,6 +15,37 @@ using Android.Widget;
 
 namespace OFFroadRescue
 {
+    public class OnSignUpEvenArgs : EventArgs
+    {
+        private string mFirstName;
+        private string mEmail;
+        private string mPassword;
+
+        public string FirstName
+        {
+            get { return mFirstName; }
+            set { mFirstName = value; }
+        }
+
+        public string Email
+        {
+            get { return mEmail; }
+            set { mEmail = value;  }
+        }
+
+        public string Password
+        {
+            get { return mPassword; }
+            set { mPassword = value; }
+        }
+
+        public OnSignUpEvenArgs(string firstName, string email, string password) : base()
+        {
+            FirstName = firstName;
+            Email = email;
+            Password = password;
+        }
+    }
 
     class dialog_SignUp : DialogFragment
     {
@@ -22,6 +53,8 @@ namespace OFFroadRescue
         private EditText mTxtEmail;
         private EditText mTxtPassword;
         private Button mBtnSignUp;
+
+        public event EventHandler<OnSignUpEvenArgs> mOnSignUpComplete;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -41,6 +74,8 @@ namespace OFFroadRescue
         void mBtnSignUp_Click(object sender, EventArgs e)
         {
             //User has clicked the sign up button 
+            mOnSignUpComplete.Invoke(this, new OnSignUpEvenArgs(mtxtFirstName.Text, mTxtEmail.Text, mTxtPassword.Text));
+            this.Dismiss();
         }
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
