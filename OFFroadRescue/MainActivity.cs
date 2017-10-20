@@ -55,7 +55,7 @@ namespace OFFroadRescue
         bool tryLogIn()
         {
             WebClient client = new WebClient();
-            Uri uri = new Uri("http://www.morskodom.cba.pl/first.php");
+            Uri uri = new Uri("http://www.offroadresque.eu/first.php");
             NameValueCollection parameters = new NameValueCollection();
 
             parameters.Add("imie","Pawel Sroka");

@@ -2,4 +2,7 @@
 <resources>
     <string name="Hello">Hello World, Click Me!</string>
     <string name="ApplicationName">OFFroadRescue</string>
+    <string name="openDrawer">Drawer Open</string>
+    <string name="closeDrawer">Drawer Close</string>
+    <string name="settingsDrawer">Settings</string>
 </resources>

@@ -1534,6 +1534,15 @@ namespace OFFroadRescue
 			// aapt resource value: 0x7f0a000f
 			public const int abc_toolbar_collapse_description = 2131361807;
 			
+			// aapt resource value: 0x7f0a0013
+			public const int closeDrawer = 2131361811;
+			
+			// aapt resource value: 0x7f0a0012
+			public const int openDrawer = 2131361810;
+			
+			// aapt resource value: 0x7f0a0014
+			public const int settingsDrawer = 2131361812;
+			
 			static String()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
