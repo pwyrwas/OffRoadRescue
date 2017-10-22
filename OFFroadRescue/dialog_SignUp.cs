@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Android.App;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 
@@ -61,6 +53,7 @@ namespace OFFroadRescue
             base.OnCreateView(inflater, container, savedInstanceState);
 
             var view = inflater.Inflate(Resource.Layout.dialog_sign_up, container, false);
+            //var view = inflater.Inflate(Resource.Layout.dialog_sign_in, container, false);
 
             mtxtFirstName = view.FindViewById<EditText>(Resource.Id.txtFirstName);
             mTxtEmail = view.FindViewById<EditText>(Resource.Id.txtEmail);

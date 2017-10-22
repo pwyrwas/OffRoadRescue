@@ -1180,14 +1180,14 @@ namespace OFFroadRescue
 			// aapt resource value: 0x7f080013
 			public const int beginning = 2131230739;
 			
-			// aapt resource value: 0x7f080042
-			public const int btnDialogEmail = 2131230786;
-			
-			// aapt resource value: 0x7f080044
-			public const int btnSignIn = 2131230788;
-			
 			// aapt resource value: 0x7f080046
-			public const int btnSignUp = 2131230790;
+			public const int btnDialogEmail = 2131230790;
+			
+			// aapt resource value: 0x7f080042
+			public const int btnSignIn = 2131230786;
+			
+			// aapt resource value: 0x7f080049
+			public const int btnSignUp = 2131230793;
 			
 			// aapt resource value: 0x7f080029
 			public const int checkbox = 2131230761;
@@ -1207,8 +1207,8 @@ namespace OFFroadRescue
 			// aapt resource value: 0x7f08000c
 			public const int disableHome = 2131230732;
 			
-			// aapt resource value: 0x7f080049
-			public const int drawer_layout = 2131230793;
+			// aapt resource value: 0x7f08004c
+			public const int drawer_layout = 2131230796;
 			
 			// aapt resource value: 0x7f08001c
 			public const int dropdown = 2131230748;
@@ -1240,8 +1240,8 @@ namespace OFFroadRescue
 			// aapt resource value: 0x7f080023
 			public const int image = 2131230755;
 			
-			// aapt resource value: 0x7f08004a
-			public const int left_drawer = 2131230794;
+			// aapt resource value: 0x7f08004d
+			public const int left_drawer = 2131230797;
 			
 			// aapt resource value: 0x7f080009
 			public const int listMode = 2131230729;
@@ -1261,8 +1261,8 @@ namespace OFFroadRescue
 			// aapt resource value: 0x7f08000a
 			public const int normal = 2131230730;
 			
-			// aapt resource value: 0x7f080047
-			public const int progressBar1 = 2131230791;
+			// aapt resource value: 0x7f08004a
+			public const int progressBar1 = 2131230794;
 			
 			// aapt resource value: 0x7f080005
 			public const int progress_circular = 2131230725;
@@ -1272,6 +1272,9 @@ namespace OFFroadRescue
 			
 			// aapt resource value: 0x7f08002b
 			public const int radio = 2131230763;
+			
+			// aapt resource value: 0x7f080041
+			public const int rb_rememberMe = 2131230785;
 			
 			// aapt resource value: 0x7f080035
 			public const int search_badge = 2131230773;
@@ -1327,23 +1330,29 @@ namespace OFFroadRescue
 			// aapt resource value: 0x7f080027
 			public const int title = 2131230759;
 			
-			// aapt resource value: 0x7f080048
-			public const int toolbar = 2131230792;
+			// aapt resource value: 0x7f08004b
+			public const int toolbar = 2131230795;
+			
+			// aapt resource value: 0x7f080047
+			public const int txtCreateAccount = 2131230791;
+			
+			// aapt resource value: 0x7f080044
+			public const int txtEmail = 2131230788;
 			
 			// aapt resource value: 0x7f080043
-			public const int txtCreateAccount = 2131230787;
-			
-			// aapt resource value: 0x7f080040
-			public const int txtEmail = 2131230784;
+			public const int txtFirstName = 2131230787;
 			
 			// aapt resource value: 0x7f08003f
-			public const int txtFirstName = 2131230783;
+			public const int txtLogin = 2131230783;
+			
+			// aapt resource value: 0x7f080048
+			public const int txtOr = 2131230792;
+			
+			// aapt resource value: 0x7f080040
+			public const int txtPassowrd = 2131230784;
 			
 			// aapt resource value: 0x7f080045
-			public const int txtOr = 2131230789;
-			
-			// aapt resource value: 0x7f080041
-			public const int txtPassword = 2131230785;
+			public const int txtPassword = 2131230789;
 			
 			// aapt resource value: 0x7f080008
 			public const int up = 2131230728;
@@ -1456,16 +1465,19 @@ namespace OFFroadRescue
 			public const int abc_simple_dropdown_hint = 2130903062;
 			
 			// aapt resource value: 0x7f030017
-			public const int dialog_sign_up = 2130903063;
+			public const int dialog_sign_in = 2130903063;
 			
 			// aapt resource value: 0x7f030018
-			public const int Main = 2130903064;
+			public const int dialog_sign_up = 2130903064;
 			
 			// aapt resource value: 0x7f030019
-			public const int mainView = 2130903065;
+			public const int Main = 2130903065;
 			
 			// aapt resource value: 0x7f03001a
-			public const int support_simple_spinner_dropdown_item = 2130903066;
+			public const int mainView = 2130903066;
+			
+			// aapt resource value: 0x7f03001b
+			public const int support_simple_spinner_dropdown_item = 2130903067;
 			
 			static Layout()
 			{

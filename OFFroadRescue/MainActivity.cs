@@ -1,11 +1,11 @@
 ﻿using Android.App;
 using Android.Widget;
 using Android.OS;
-using Android.Content;
 using System;
 using System.Threading;
 using System.Net;
 using System.Collections.Specialized;
+using Android.Content;
 
 namespace OFFroadRescue
 {
@@ -37,7 +37,13 @@ namespace OFFroadRescue
             };
             mBtnSignIn.Click += (object sender, EventArgs args) =>
             {
-                bool loginStatus = tryLogIn();
+                FragmentTransaction transaction = FragmentManager.BeginTransaction();
+                dialog_sign_in signInDialog = new dialog_sign_in();
+                signInDialog.Show(transaction, "dialog fragment");
+
+                signInDialog.mOnSignInComplete += singInDialog_mOnSingInComplete;
+
+                /*bool loginStatus = tryLogIn();
                 //set mainView Layout - mainView layout should be the main layout our
                 //application after login. 
                 if(loginStatus)
@@ -49,7 +55,7 @@ namespace OFFroadRescue
                 else
                 {
                     //infrmation about error during singIn process.
-                }
+                }*/
             };
             }
         bool tryLogIn()
@@ -79,6 +85,23 @@ namespace OFFroadRescue
             Thread thread = new Thread(actLikeRequest);
             thread.Start();
             
+        }
+        void singInDialog_mOnSingInComplete(object sender, OnSignInEvenArgs e)
+        {
+                 bool loginStatus = tryLogIn();
+                 //set mainView Layout - mainView layout should be the main layout our
+                 //application after login. 
+                 if(loginStatus)
+                 {
+                     Intent intent = new Intent(this, typeof(mainView));
+                     this.StartActivity(intent);
+                     this.Finish();
+                 }
+                 else
+                 {
+                     //infrmation about error during singIn process.
+                 }
+
         }
         private void actLikeRequest() //request to database in the future
         {

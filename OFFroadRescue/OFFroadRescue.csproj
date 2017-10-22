@@ -61,6 +61,7 @@
     <Compile Include="MainActivity.cs" />
     <Compile Include="mainView.cs" />
     <Compile Include="MyActionBarDrawerToggle.cs" />
+    <Compile Include="dialog_sign_in.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -68,8 +69,13 @@
     <None Include="GettingStarted.Xamarin" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
-    <AndroidResource Include="Resources\layout\dialog_sign_up.axml" />
     <AndroidResource Include="Resources\layout\mainView.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\dialog_sign_up.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\dialog_sign_in.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
