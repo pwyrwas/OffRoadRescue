@@ -43,19 +43,6 @@ namespace OFFroadRescue
 
                 signInDialog.mOnSignInComplete += singInDialog_mOnSingInComplete;
 
-                /*bool loginStatus = tryLogIn();
-                //set mainView Layout - mainView layout should be the main layout our
-                //application after login. 
-                if(loginStatus)
-                {
-                    Intent intent = new Intent(this, typeof(mainView));
-                    this.StartActivity(intent);
-                    this.Finish();
-                }
-                else
-                {
-                    //infrmation about error during singIn process.
-                }*/
             };
             }
         bool tryLogIn()
