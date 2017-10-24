@@ -7,6 +7,7 @@ using System.Net;
 using System.Collections.Specialized;
 using Android.Content;
 
+
 namespace OFFroadRescue
 {
     [Activity(Label = "OFFroadRescue", MainLauncher = true, Icon = "@drawable/icon")]
@@ -66,30 +67,16 @@ namespace OFFroadRescue
 
         void client_UploadValuesCompleted(object sender, UploadValuesCompletedEventArgs e)
         {
-            Console.WriteLine("Done!");
-            Toast.MakeText(ApplicationContext, "Info!", ToastLength.Long).Show();
-           
+            string result = System.Text.Encoding.UTF8.GetString(e.Result);
+            Toast.MakeText(ApplicationContext, result, ToastLength.Long).Show();
+
         }
 
         void singUpDialog_mOnSingUpComplete(object sender, OnSignUpEvenArgs e)
         {
-          //  tryLogIn();
+            createAccount("rejestruj", e.FirstName, e.Password, e.Password, e.Email);
             //tutaj proces logowania
-        /*    WebClient client = new WebClient();
-            Uri uri = new Uri("http://www.offroadresque.eu/registration.php");
-            NameValueCollection parameters = new NameValueCollection();
-
-            parameters.Add("rejestruj", "rejestruj");
-            parameters.Add("login", "Pawel");
-            parameters.Add("haslo1", "orangepl1");
-            parameters.Add("haslo2", "orangepl1");
-            parameters.Add("email", "kudlaty951@gmail.com");
-
-            client.UploadValuesCompleted += client_UploadValuesCompleted;
-            client.UploadValuesAsync(uri, "POST",parameters);
-
-            It's works properly, need to modify. 
-          */  
+           
             //Console.WriteLine(e.FirstName.ToString()); <- it's access to this data
             mProgressBar.Visibility = Android.Views.ViewStates.Visible;
             Thread thread = new Thread(actLikeRequest);
@@ -113,6 +100,24 @@ namespace OFFroadRescue
                      //infrmation about error during singIn process.
                  }
 
+        }
+        void createAccount(string registrate, string s_login, string s_password1, string s_password2, string s_email)
+        {
+
+            WebClient client = new WebClient();
+            Uri uri = new Uri("http://www.offroadresque.eu/registration.php");
+            NameValueCollection parameters = new NameValueCollection();
+
+            parameters.Add("rejestruj", registrate);
+            parameters.Add("login", s_login);
+            parameters.Add("haslo1", s_password1);
+            parameters.Add("haslo2", s_password2);
+            parameters.Add("email", s_email);
+
+            client.UploadValuesCompleted += client_UploadValuesCompleted;
+            client.UploadValuesAsync(uri, "POST", parameters);
+
+            //It's works properly, need to modify. 
         }
         private void actLikeRequest() //request to database in the future
         {
