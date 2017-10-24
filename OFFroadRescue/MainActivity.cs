@@ -46,7 +46,7 @@ namespace OFFroadRescue
                 dialog_sign_in signInDialog = new dialog_sign_in();
                 signInDialog.Show(transaction, "dialog fragment");
                 signInDialog.mOnSignInComplete += singInDialog_mOnSingInComplete;
-                
+
             };
             }
         bool tryLogIn()
