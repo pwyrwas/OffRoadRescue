@@ -53,7 +53,6 @@ namespace OFFroadRescue
             base.OnCreateView(inflater, container, savedInstanceState);
 
             var view = inflater.Inflate(Resource.Layout.dialog_sign_up, container, false);
-            //var view = inflater.Inflate(Resource.Layout.dialog_sign_in, container, false);
 
             mtxtFirstName = view.FindViewById<EditText>(Resource.Id.txtFirstName);
             mTxtEmail = view.FindViewById<EditText>(Resource.Id.txtEmail);

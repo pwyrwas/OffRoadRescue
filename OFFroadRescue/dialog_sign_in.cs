@@ -10,6 +10,7 @@ namespace OFFroadRescue
     {
         private string mLogin;
         private string mPassword;
+        private bool mRememberMe;
 
 
         public string Login
@@ -23,13 +24,20 @@ namespace OFFroadRescue
             get { return mPassword; }
             set { mPassword = value; }
         }
+        public bool RememberMe
+        {
+            get { return mRememberMe; }
+            set { mRememberMe = value; }
+        }
+        
 
 
-        public OnSignInEvenArgs(string login, string password) : base()
+        public OnSignInEvenArgs(string login, string password, bool  rememberMe) : base()
         {
             Login = login;
             Password = password;
-
+            RememberMe = rememberMe;
+            
         }
     }
     class dialog_sign_in : DialogFragment
@@ -60,7 +68,7 @@ namespace OFFroadRescue
         void mBtnSignIn_Click(object sender, EventArgs e)
         {
             //User has clicked the sign up button 
-            mOnSignInComplete.Invoke(this, new OnSignInEvenArgs(mtxtLogin.Text, mTxtPassword.Text));
+            mOnSignInComplete.Invoke(this, new OnSignInEvenArgs(mtxtLogin.Text, mTxtPassword.Text, rb_rememberMe.Checked));
             this.Dismiss();
         }
         public override void OnActivityCreated(Bundle savedInstanceState)
