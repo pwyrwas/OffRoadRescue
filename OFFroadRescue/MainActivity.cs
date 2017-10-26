@@ -6,6 +6,7 @@ using System.Threading;
 using System.Net;
 using System.Collections.Specialized;
 using Android.Content;
+using Android.Graphics;
 
 
 namespace OFFroadRescue
@@ -19,6 +20,8 @@ namespace OFFroadRescue
         private string password1;
         private string password2;
         private string email;
+        bool singInStatus = false;
+        dialog_SignUp signUpDialog;
 
         private ProgressBar mProgressBar;
         protected override void OnCreate(Bundle bundle)
@@ -35,19 +38,22 @@ namespace OFFroadRescue
             {
                 //Pull up dialog
                 FragmentTransaction transaction = FragmentManager.BeginTransaction();
-                dialog_SignUp signUpDialog = new dialog_SignUp();
-                signUpDialog.Show(transaction, "dialog fragment");
+                signUpDialog = new dialog_SignUp();
 
-                signUpDialog.mOnSignUpComplete += singUpDialog_mOnSingUpComplete;
                 
+                signUpDialog.Show(transaction, "dialog fragment");
+                signUpDialog.mOnSignUpComplete += singUpDialog_mOnSingUpComplete;
+
+               
             };
             mBtnSignIn.Click += (object sender, EventArgs args) =>
             {
+
                 FragmentTransaction transaction = FragmentManager.BeginTransaction();
                 dialog_sign_in signInDialog = new dialog_sign_in();
+                
                 signInDialog.Show(transaction, "dialog fragment");
                 signInDialog.mOnSignInComplete += singInDialog_mOnSingInComplete;
-
             };
             }
         bool tryLogIn()
@@ -67,22 +73,82 @@ namespace OFFroadRescue
 
         void client_UploadValuesCompleted(object sender, UploadValuesCompletedEventArgs e)
         {
-            string result = System.Text.Encoding.UTF8.GetString(e.Result);
-            Toast.MakeText(ApplicationContext, result, ToastLength.Long).Show();
+            //color to sign wrong wrote filed
+            Color colorWrong = Color.ParseColor("#FFCDD2");             //red
+            Color colorGood = Color.ParseColor("#ffffff");              //white
+            Color colorAllGood = Color.ParseColor("#64FFDA");           //Green
 
+            try
+            {
+                EditText mtxtFirstName = signUpDialog.View.FindViewById<EditText>(Resource.Id.txtFirstName);
+                EditText mTxtEmail = signUpDialog.View.FindViewById<EditText>(Resource.Id.txtEmail);
+                Button mBtnSignUp = signUpDialog.View.FindViewById<Button>(Resource.Id.btnDialogEmail);
+                EditText mTxtPassword = signUpDialog.View.FindViewById<EditText>(Resource.Id.txtPassword);
+                string result = System.Text.Encoding.UTF8.GetString(e.Result);
+
+                Toast.MakeText(ApplicationContext, result, ToastLength.Long).Show();
+
+                if (result == "All fields must be filled in")
+                {
+                    mtxtFirstName.SetBackgroundColor(colorWrong);
+                    mTxtPassword.SetBackgroundColor(colorWrong);
+                    mTxtEmail.SetBackgroundColor(colorWrong);
+                }
+                else
+                {
+                    mtxtFirstName.SetBackgroundColor(colorGood);
+                    mTxtPassword.SetBackgroundColor(colorGood);
+                    mTxtEmail.SetBackgroundColor(colorGood);
+                }
+
+                if (result == "Email Adress are incorrect!")
+                    mTxtEmail.SetBackgroundColor(colorWrong);
+                else if (result != "All fields must be filled in")
+                    mTxtEmail.SetBackgroundColor(colorGood);
+                if (result == "This login is arleady in use" && result != "All fields must be filled in")
+                    mtxtFirstName.SetBackgroundColor(colorWrong);
+                else if (result != "All fields must be filled in")
+                    mtxtFirstName.SetBackgroundColor(colorGood);
+                if (result == "Your password should have minmum 5 letters" && result != "All fields must be filled in")
+                    mTxtPassword.SetBackgroundColor(colorWrong);
+                else if (result != "All fields must be filled in")
+                    mTxtPassword.SetBackgroundColor(colorGood);
+                if (result == "Login should have minimum 4 sign" && result != "All fields must be filled in")
+                    mtxtFirstName.SetBackgroundColor(colorWrong);
+                else if (result != "All fields must be filled in")
+                    mtxtFirstName.SetBackgroundColor(colorGood);
+
+
+                //at least
+                if (result == "Account was created!")
+                {
+                    mtxtFirstName.SetBackgroundColor(colorAllGood);
+                    mTxtPassword.SetBackgroundColor(colorAllGood);
+                    mTxtEmail.SetBackgroundColor(colorAllGood);
+                    //don't knwo why colors not set at #64FFDA after all good field
+                    singInStatus = true;
+
+                    Thread.Sleep(1000);
+                    signUpDialog.Dismiss();
+                    singInStatus = false;
+                }
+            }
+            catch(Exception exc)
+            {
+                Console.WriteLine(exc.ToString());
+            }
         }
 
         void singUpDialog_mOnSingUpComplete(object sender, OnSignUpEvenArgs e)
         {
+            
             createAccount("rejestruj", e.FirstName, e.Password, e.Password, e.Email);
             //tutaj proces logowania
-           
+
             //Console.WriteLine(e.FirstName.ToString()); <- it's access to this data
             mProgressBar.Visibility = Android.Views.ViewStates.Visible;
             Thread thread = new Thread(actLikeRequest);
             thread.Start();
-            
-            
         }
         void singInDialog_mOnSingInComplete(object sender, OnSignInEvenArgs e)
         {
@@ -117,14 +183,13 @@ namespace OFFroadRescue
             client.UploadValuesCompleted += client_UploadValuesCompleted;
             client.UploadValuesAsync(uri, "POST", parameters);
 
-            //It's works properly, need to modify. 
         }
         private void actLikeRequest() //request to database in the future
         {
-           
-
+            //now it is for nothing ;)
             RunOnUiThread(() => { mProgressBar.Visibility = Android.Views.ViewStates.Invisible; });
         }
+       
     }
 }
 

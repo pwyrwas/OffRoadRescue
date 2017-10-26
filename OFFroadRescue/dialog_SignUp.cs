@@ -12,6 +12,7 @@ namespace OFFroadRescue
         private string mFirstName;
         private string mEmail;
         private string mPassword;
+        
 
         public string FirstName
         {
@@ -30,6 +31,7 @@ namespace OFFroadRescue
             get { return mPassword; }
             set { mPassword = value; }
         }
+  
 
         public OnSignUpEvenArgs(string firstName, string email, string password) : base()
         {
@@ -45,6 +47,7 @@ namespace OFFroadRescue
         private EditText mTxtEmail;
         private EditText mTxtPassword;
         private Button mBtnSignUp;
+       
 
         public event EventHandler<OnSignUpEvenArgs> mOnSignUpComplete;
 
@@ -60,14 +63,14 @@ namespace OFFroadRescue
             mTxtPassword = view.FindViewById<EditText>(Resource.Id.txtPassword);
 
             mBtnSignUp.Click += mBtnSignUp_Click;
-
+            
             return view;
         }
         void mBtnSignUp_Click(object sender, EventArgs e)
         {
             //User has clicked the sign up button 
             mOnSignUpComplete.Invoke(this, new OnSignUpEvenArgs(mtxtFirstName.Text, mTxtEmail.Text, mTxtPassword.Text));
-            this.Dismiss();
+            //this.Dismiss();
         }
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
@@ -75,5 +78,6 @@ namespace OFFroadRescue
             base.OnActivityCreated(savedInstanceState);
             Dialog.Window.Attributes.WindowAnimations = Resource.Style.dialog_animation; // set the animation
         }
+      
     }
 }
