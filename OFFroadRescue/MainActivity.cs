@@ -39,16 +39,12 @@ namespace OFFroadRescue
                 //Pull up dialog
                 FragmentTransaction transaction = FragmentManager.BeginTransaction();
                 signUpDialog = new dialog_SignUp();
-
                 
                 signUpDialog.Show(transaction, "dialog fragment");
                 signUpDialog.mOnSignUpComplete += singUpDialog_mOnSingUpComplete;
-
-               
             };
             mBtnSignIn.Click += (object sender, EventArgs args) =>
             {
-
                 FragmentTransaction transaction = FragmentManager.BeginTransaction();
                 dialog_sign_in signInDialog = new dialog_sign_in();
                 
@@ -77,13 +73,14 @@ namespace OFFroadRescue
             Color colorWrong = Color.ParseColor("#FFCDD2");             //red
             Color colorGood = Color.ParseColor("#ffffff");              //white
             Color colorAllGood = Color.ParseColor("#64FFDA");           //Green
-
+            
             try
             {
                 EditText mtxtFirstName = signUpDialog.View.FindViewById<EditText>(Resource.Id.txtFirstName);
                 EditText mTxtEmail = signUpDialog.View.FindViewById<EditText>(Resource.Id.txtEmail);
                 Button mBtnSignUp = signUpDialog.View.FindViewById<Button>(Resource.Id.btnDialogEmail);
                 EditText mTxtPassword = signUpDialog.View.FindViewById<EditText>(Resource.Id.txtPassword);
+                EditText mTxtPassword2 = signUpDialog.View.FindViewById<EditText>(Resource.Id.txtPassword2);
                 string result = System.Text.Encoding.UTF8.GetString(e.Result);
 
                 Toast.MakeText(ApplicationContext, result, ToastLength.Long).Show();
@@ -93,12 +90,14 @@ namespace OFFroadRescue
                     mtxtFirstName.SetBackgroundColor(colorWrong);
                     mTxtPassword.SetBackgroundColor(colorWrong);
                     mTxtEmail.SetBackgroundColor(colorWrong);
+                    mTxtPassword2.SetBackgroundColor(colorWrong);
                 }
                 else
                 {
                     mtxtFirstName.SetBackgroundColor(colorGood);
                     mTxtPassword.SetBackgroundColor(colorGood);
                     mTxtEmail.SetBackgroundColor(colorGood);
+                    mTxtPassword2.SetBackgroundColor(colorGood);
                 }
 
                 if (result == "Email Adress are incorrect!")
@@ -116,8 +115,11 @@ namespace OFFroadRescue
                 if (result == "Login should have minimum 4 sign" && result != "All fields must be filled in")
                     mtxtFirstName.SetBackgroundColor(colorWrong);
                 else if (result != "All fields must be filled in")
-                    mtxtFirstName.SetBackgroundColor(colorGood);
-
+                    mtxtFirstName.SetBackgroundColor(colorGood); 
+                if (result == "Passwords are not the same" && result != "All fields must be filled in")
+                    mTxtPassword2.SetBackgroundColor(colorWrong);
+                else if (result != "All fields must be filled in")
+                    mTxtPassword2.SetBackgroundColor(colorGood);
 
                 //at least
                 if (result == "Account was created!")
@@ -125,6 +127,7 @@ namespace OFFroadRescue
                     mtxtFirstName.SetBackgroundColor(colorAllGood);
                     mTxtPassword.SetBackgroundColor(colorAllGood);
                     mTxtEmail.SetBackgroundColor(colorAllGood);
+                    mTxtPassword2.SetBackgroundColor(colorAllGood);
                     //don't knwo why colors not set at #64FFDA after all good field
                     singInStatus = true;
 
@@ -142,7 +145,7 @@ namespace OFFroadRescue
         void singUpDialog_mOnSingUpComplete(object sender, OnSignUpEvenArgs e)
         {
             
-            createAccount("rejestruj", e.FirstName, e.Password, e.Password, e.Email);
+            createAccount("rejestruj", e.FirstName, e.Password, e.Password2, e.Email);
             //tutaj proces logowania
 
             //Console.WriteLine(e.FirstName.ToString()); <- it's access to this data

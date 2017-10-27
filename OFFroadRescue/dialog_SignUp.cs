@@ -12,6 +12,7 @@ namespace OFFroadRescue
         private string mFirstName;
         private string mEmail;
         private string mPassword;
+        private string mPassword2;
         
 
         public string FirstName
@@ -31,13 +32,19 @@ namespace OFFroadRescue
             get { return mPassword; }
             set { mPassword = value; }
         }
-  
+        public string Password2
+        {
+            get { return mPassword2; }
+            set { mPassword2 = value; }
+        }
 
-        public OnSignUpEvenArgs(string firstName, string email, string password) : base()
+
+        public OnSignUpEvenArgs(string firstName, string email, string password, string password2) : base()
         {
             FirstName = firstName;
             Email = email;
             Password = password;
+            Password2 = password2;
         }
     }
 
@@ -46,6 +53,7 @@ namespace OFFroadRescue
         private EditText mtxtFirstName;
         private EditText mTxtEmail;
         private EditText mTxtPassword;
+        private EditText mTxtPassword2;
         private Button mBtnSignUp;
        
 
@@ -61,6 +69,7 @@ namespace OFFroadRescue
             mTxtEmail = view.FindViewById<EditText>(Resource.Id.txtEmail);
             mBtnSignUp = view.FindViewById<Button>(Resource.Id.btnDialogEmail);
             mTxtPassword = view.FindViewById<EditText>(Resource.Id.txtPassword);
+            mTxtPassword2 = view.FindViewById<EditText>(Resource.Id.txtPassword2);
 
             mBtnSignUp.Click += mBtnSignUp_Click;
             
@@ -69,7 +78,7 @@ namespace OFFroadRescue
         void mBtnSignUp_Click(object sender, EventArgs e)
         {
             //User has clicked the sign up button 
-            mOnSignUpComplete.Invoke(this, new OnSignUpEvenArgs(mtxtFirstName.Text, mTxtEmail.Text, mTxtPassword.Text));
+            mOnSignUpComplete.Invoke(this, new OnSignUpEvenArgs(mtxtFirstName.Text, mTxtEmail.Text, mTxtPassword.Text, mTxtPassword2.Text));
             //this.Dismiss();
         }
         public override void OnActivityCreated(Bundle savedInstanceState)

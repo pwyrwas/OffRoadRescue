@@ -1180,14 +1180,14 @@ namespace OFFroadRescue
 			// aapt resource value: 0x7f080013
 			public const int beginning = 2131230739;
 			
-			// aapt resource value: 0x7f080046
-			public const int btnDialogEmail = 2131230790;
+			// aapt resource value: 0x7f080047
+			public const int btnDialogEmail = 2131230791;
 			
 			// aapt resource value: 0x7f080042
 			public const int btnSignIn = 2131230786;
 			
-			// aapt resource value: 0x7f080049
-			public const int btnSignUp = 2131230793;
+			// aapt resource value: 0x7f08004a
+			public const int btnSignUp = 2131230794;
 			
 			// aapt resource value: 0x7f080029
 			public const int checkbox = 2131230761;
@@ -1207,8 +1207,8 @@ namespace OFFroadRescue
 			// aapt resource value: 0x7f08000c
 			public const int disableHome = 2131230732;
 			
-			// aapt resource value: 0x7f08004c
-			public const int drawer_layout = 2131230796;
+			// aapt resource value: 0x7f08004d
+			public const int drawer_layout = 2131230797;
 			
 			// aapt resource value: 0x7f08001c
 			public const int dropdown = 2131230748;
@@ -1240,8 +1240,8 @@ namespace OFFroadRescue
 			// aapt resource value: 0x7f080023
 			public const int image = 2131230755;
 			
-			// aapt resource value: 0x7f08004d
-			public const int left_drawer = 2131230797;
+			// aapt resource value: 0x7f08004e
+			public const int left_drawer = 2131230798;
 			
 			// aapt resource value: 0x7f080009
 			public const int listMode = 2131230729;
@@ -1261,8 +1261,8 @@ namespace OFFroadRescue
 			// aapt resource value: 0x7f08000a
 			public const int normal = 2131230730;
 			
-			// aapt resource value: 0x7f08004a
-			public const int progressBar1 = 2131230794;
+			// aapt resource value: 0x7f08004b
+			public const int progressBar1 = 2131230795;
 			
 			// aapt resource value: 0x7f080005
 			public const int progress_circular = 2131230725;
@@ -1330,11 +1330,11 @@ namespace OFFroadRescue
 			// aapt resource value: 0x7f080027
 			public const int title = 2131230759;
 			
-			// aapt resource value: 0x7f08004b
-			public const int toolbar = 2131230795;
+			// aapt resource value: 0x7f08004c
+			public const int toolbar = 2131230796;
 			
-			// aapt resource value: 0x7f080047
-			public const int txtCreateAccount = 2131230791;
+			// aapt resource value: 0x7f080048
+			public const int txtCreateAccount = 2131230792;
 			
 			// aapt resource value: 0x7f080044
 			public const int txtEmail = 2131230788;
@@ -1345,14 +1345,17 @@ namespace OFFroadRescue
 			// aapt resource value: 0x7f08003f
 			public const int txtLogin = 2131230783;
 			
-			// aapt resource value: 0x7f080048
-			public const int txtOr = 2131230792;
+			// aapt resource value: 0x7f080049
+			public const int txtOr = 2131230793;
 			
 			// aapt resource value: 0x7f080040
 			public const int txtPassowrd = 2131230784;
 			
 			// aapt resource value: 0x7f080045
 			public const int txtPassword = 2131230789;
+			
+			// aapt resource value: 0x7f080046
+			public const int txtPassword2 = 2131230790;
 			
 			// aapt resource value: 0x7f080008
 			public const int up = 2131230728;
