@@ -7,7 +7,7 @@
     android:background="#DEDEDC">
     <EditText
         android:inputType="text|textEmailAddress"
-        android:hint="Login or E-maill address..."
+        android:hint="@string/loginSI"
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:id="@+id/txtLogin"
@@ -20,7 +20,7 @@
         android:textColor="#000" />
     <EditText
         android:inputType="textPassword"
-        android:hint="Password"
+        android:hint="@string/passwordSI"
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:id="@+id/txtPassowrd"
@@ -32,7 +32,7 @@
         android:textColor="#000"
         android:layout_below="@id/txtLogin" />
     <RadioButton
-        android:text="Remember me !"
+        android:text="@string/rememberMeSi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/rb_rememberMe"
@@ -50,7 +50,7 @@
         android:layout_below="@id/rb_rememberMe"
         android:layout_marginTop="50dp">
         <Button
-            android:text="Sign In!"
+            android:text="@string/siSI"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/btnSignIn"

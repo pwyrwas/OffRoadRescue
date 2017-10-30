@@ -8,13 +8,13 @@
     <EditText
         android:id="@+id/txtFirstName"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="35dp"
         android:background="@drawable/edit_text_style"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="50dp"
-        android:hint="First Name"
+        android:hint="@string/firstNameSingUp"
         android:paddingLeft="10dp"
         android:textColor="#000" />
     <EditText
@@ -27,7 +27,7 @@
         android:layout_marginBottom="30dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:hint="Email"
+        android:hint="@string/EmailSingUp"
         android:paddingLeft="10dp"
         android:textColor="#000" />
     <EditText
@@ -39,7 +39,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="10dp"
-        android:hint="Password"
+        android:hint="@string/PasswordSingUp"
         android:paddingLeft="10dp"
         android:textColor="#000"
         android:layout_below="@id/txtEmail" />
@@ -52,7 +52,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="10dp"
-        android:hint="Repeat password"
+        android:hint="@string/password2SingUp"
         android:paddingLeft="10dp"
         android:textColor="#000"
         android:layout_below="@id/txtPassword" />
@@ -62,7 +62,7 @@
         android:layout_below="@id/txtPassword"
         android:layout_marginTop="100dp">
         <Button
-            android:text="Sign Up!"
+            android:text="@string/sUSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/btnDialogEmail"

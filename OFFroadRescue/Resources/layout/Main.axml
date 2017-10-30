@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -9,8 +8,7 @@
     android:minWidth="25px"
     android:minHeight="25px">
     <TextView
-      
-        android:text="@string/ApplicationName"
+        android:text="@string/header"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_weight="20"
@@ -21,7 +19,7 @@
         android:textStyle="bold"
         android:textSize="25sp" />
     <Button
-        android:text="Sign In"
+        android:text="@string/signIn"
         android:textColor="#f5f5dc"
         android:textStyle="bold"
         android:layout_width="match_parent"
@@ -33,7 +31,7 @@
         android:layout_marginRight="20dp"
         android:textSize="15sp" />
     <TextView
-        android:text="Or"
+        android:text="@string/or"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -42,7 +40,7 @@
         android:id="@+id/txtOr"
         android:gravity="center" />
     <Button
-        android:text="Sign Up With Email"
+        android:text="@string/signUp"
         android:textStyle="bold"
         android:textColor="#f5f5dc"
         android:layout_width="match_parent"

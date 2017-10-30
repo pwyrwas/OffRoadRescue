@@ -16,11 +16,6 @@ namespace OFFroadRescue
     {
         private Button mBtnSignUp;
         private Button mBtnSignIn;
-        private string login;
-        private string password1;
-        private string password2;
-        private string email;
-        bool singInStatus = false;
         dialog_SignUp signUpDialog;
 
         private ProgressBar mProgressBar;
@@ -83,10 +78,9 @@ namespace OFFroadRescue
                 EditText mTxtPassword2 = signUpDialog.View.FindViewById<EditText>(Resource.Id.txtPassword2);
                 string result = System.Text.Encoding.UTF8.GetString(e.Result);
 
-                Toast.MakeText(ApplicationContext, result, ToastLength.Long).Show();
-
                 if (result == "All fields must be filled in")
                 {
+                    Toast.MakeText(ApplicationContext, GetString(Resource.String.AllfieldsmustBefilledIn), ToastLength.Long).Show();
                     mtxtFirstName.SetBackgroundColor(colorWrong);
                     mTxtPassword.SetBackgroundColor(colorWrong);
                     mTxtEmail.SetBackgroundColor(colorWrong);
@@ -101,39 +95,61 @@ namespace OFFroadRescue
                 }
 
                 if (result == "Email Adress are incorrect!")
+                {
+                    Toast.MakeText(ApplicationContext, GetString(Resource.String.EmailAdressAreIncorrect), ToastLength.Long).Show();
                     mTxtEmail.SetBackgroundColor(colorWrong);
-                else if (result != "All fields must be filled in")
+                }else if (result != "All fields must be filled in")
                     mTxtEmail.SetBackgroundColor(colorGood);
+                    
                 if (result == "This login is arleady in use" && result != "All fields must be filled in")
+                {
+                    Toast.MakeText(ApplicationContext, GetString(Resource.String.ThisLoginIsArleadyInUse), ToastLength.Long).Show();
                     mtxtFirstName.SetBackgroundColor(colorWrong);
+                }
+                    
                 else if (result != "All fields must be filled in")
+                {
                     mtxtFirstName.SetBackgroundColor(colorGood);
+                }
+                   
                 if (result == "Your password should have minmum 5 letters" && result != "All fields must be filled in")
+                {
+                    Toast.MakeText(ApplicationContext, GetString(Resource.String.YourPasswordShouldHaveMinmum5Letters), ToastLength.Long).Show();
                     mTxtPassword.SetBackgroundColor(colorWrong);
-                else if (result != "All fields must be filled in")
+                }else if (result != "All fields must be filled in")
+                {
                     mTxtPassword.SetBackgroundColor(colorGood);
+                }
+                    
                 if (result == "Login should have minimum 4 sign" && result != "All fields must be filled in")
+                {
+                    Toast.MakeText(ApplicationContext, GetString(Resource.String.LoginShouldhaveMinimum4Sign), ToastLength.Long).Show();
                     mtxtFirstName.SetBackgroundColor(colorWrong);
-                else if (result != "All fields must be filled in")
-                    mtxtFirstName.SetBackgroundColor(colorGood); 
-                if (result == "Passwords are not the same" && result != "All fields must be filled in")
-                    mTxtPassword2.SetBackgroundColor(colorWrong);
-                else if (result != "All fields must be filled in")
-                    mTxtPassword2.SetBackgroundColor(colorGood);
+                }else if (result != "All fields must be filled in")
+                {
+                    mtxtFirstName.SetBackgroundColor(colorGood);
+                }
 
+                if (result == "Passwords are not the same" && result != "All fields must be filled in")
+                {
+                    Toast.MakeText(ApplicationContext, GetString(Resource.String.PasswordsAreNotTheSame), ToastLength.Long).Show();
+                    mTxtPassword2.SetBackgroundColor(colorWrong);
+                }else if (result != "All fields must be filled in")
+                {
+                    mTxtPassword2.SetBackgroundColor(colorGood);
+                }
                 //at least
                 if (result == "Account was created!")
                 {
+                    Toast.MakeText(ApplicationContext, GetString(Resource.String.AccountWasCreated), ToastLength.Long).Show();
+                    mTxtPassword2.SetBackgroundColor(colorAllGood);
                     mtxtFirstName.SetBackgroundColor(colorAllGood);
                     mTxtPassword.SetBackgroundColor(colorAllGood);
                     mTxtEmail.SetBackgroundColor(colorAllGood);
                     mTxtPassword2.SetBackgroundColor(colorAllGood);
                     //don't knwo why colors not set at #64FFDA after all good field
-                    singInStatus = true;
-
                     Thread.Sleep(1000);
                     signUpDialog.Dismiss();
-                    singInStatus = false;
                 }
             }
             catch(Exception exc)
