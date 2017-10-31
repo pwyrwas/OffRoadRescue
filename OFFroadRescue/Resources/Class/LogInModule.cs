@@ -9,26 +9,64 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using System.Xml;
 
 namespace OFFroadRescue.Resources.Class
 {
     class LogInModule
     {
-        public string sLogIn;
-        private string sPassword;
-        public bool blogInState = false;
+        public string sLogIn { get; set; }
+        private string sPassword { get; set; }
+        private bool brememberMe { get; set; }
+        public bool blogInState { get; set; }
+
 
         // Sign to sLogIn and sPassword new values
-        public LogInModule(string login, string passowrd)
+        public LogInModule(string login, string passowrd, bool rememberMe)
         {
             sLogIn = login;
             sPassword = passowrd;
+            brememberMe = rememberMe;
         }
+
         // Prepare login process
-        public void LogIn()
+        public bool LogIn()
         {
             blogInState = true;
+            if (brememberMe)
+                saveLoginData();
+            return true;
+        }
+        public bool saveLoginData()
+        {
+            var doc = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+            XmlDocument xml = new XmlDocument();
+            string tempDoc = doc;
+            doc = System.IO.Path.Combine(doc, "LogInfile.xml");
+            bool state = System.IO.File.Exists(doc);
+            if (!state)
+            {
+                try
+                {
+                    System.IO.File.Create(doc).Dispose();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                }
+              
+            }
+            XmlElement el = (XmlElement)xml.AppendChild(xml.CreateElement("Data"));
+            el.SetAttribute("Data1", "Data2");
+            xml.Save(doc);
+            string text = xml.InnerXml.ToString();
+
+            state = System.IO.File.Exists(doc);
+            string[] listaPlikow = System.IO.Directory.GetFiles(tempDoc);
+
             
+
+            return true;
         }
         // get Login state
         public bool GetLogInState() => blogInState;

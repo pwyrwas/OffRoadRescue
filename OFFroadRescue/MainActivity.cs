@@ -7,7 +7,7 @@ using System.Net;
 using System.Collections.Specialized;
 using Android.Content;
 using Android.Graphics;
-
+using OFFroadRescue.Resources.Class;
 
 namespace OFFroadRescue
 {
@@ -17,6 +17,7 @@ namespace OFFroadRescue
         private Button mBtnSignUp;
         private Button mBtnSignIn;
         dialog_SignUp signUpDialog;
+        dialog_sign_in signInDialog;
 
         private ProgressBar mProgressBar;
         protected override void OnCreate(Bundle bundle)
@@ -41,27 +42,13 @@ namespace OFFroadRescue
             mBtnSignIn.Click += (object sender, EventArgs args) =>
             {
                 FragmentTransaction transaction = FragmentManager.BeginTransaction();
-                dialog_sign_in signInDialog = new dialog_sign_in();
+                signInDialog = new dialog_sign_in();
                 
                 signInDialog.Show(transaction, "dialog fragment");
                 signInDialog.mOnSignInComplete += singInDialog_mOnSingInComplete;
             };
             }
-        bool tryLogIn()
-        {
-            WebClient client = new WebClient();
-            Uri uri = new Uri("http://www.offroadresque.eu/first.php");
-            NameValueCollection parameters = new NameValueCollection();
-
-            parameters.Add("imie","asdf");
-            parameters.Add("test", "test");
-
-            client.UploadValuesCompleted += client_UploadValuesCompleted;
-            client.UploadValuesAsync(uri, parameters);
-
-            return true;
-        }
-
+        
         void client_UploadValuesCompleted(object sender, UploadValuesCompletedEventArgs e)
         {
             //color to sign wrong wrote filed
@@ -171,10 +158,13 @@ namespace OFFroadRescue
         }
         void singInDialog_mOnSingInComplete(object sender, OnSignInEvenArgs e)
         {
-                 bool loginStatus = tryLogIn();
-                 //set mainView Layout - mainView layout should be the main layout our
-                 //application after login. 
-                 if(loginStatus)
+            EditText mtxtusername = signInDialog.View.FindViewById<EditText>(Resource.Id.txtLogin);
+            EditText mtxtpassword = signInDialog.View.FindViewById<EditText>(Resource.Id.txtPassowrd);
+            RadioButton rbRememberMe = signInDialog.View.FindViewById<RadioButton>(Resource.Id.rb_rememberMe);
+
+            LogInModule lg = new LogInModule(mtxtusername.Text.ToString(), mtxtpassword.Text.ToString(), rbRememberMe.Checked);
+
+            if (lg.LogIn())
                  {
                      Intent intent = new Intent(this, typeof(mainView));
                      this.StartActivity(intent);
@@ -184,8 +174,8 @@ namespace OFFroadRescue
                  {
                      //infrmation about error during singIn process.
                  }
-
         }
+
         void createAccount(string registrate, string s_login, string s_password1, string s_password2, string s_email)
         {
 
