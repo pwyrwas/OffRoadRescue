@@ -23,30 +23,39 @@ namespace OFFroadRescue
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            
-            // Set our view from the "main" layout resource
-            SetContentView (Resource.Layout.Main);
 
-            mBtnSignUp = FindViewById<Button>(Resource.Id.btnSignUp);
-            mBtnSignIn = FindViewById<Button>(Resource.Id.btnSignIn);
-            mProgressBar = FindViewById<ProgressBar>(Resource.Id.progressBar1);
-            mBtnSignUp.Click += (object sender, EventArgs args) =>
+            if (false) // jeżeli tutaj przeczytam w pliku LogInData XML że jest true dla remenber me to się loguje i wbijam prosto do mainView/ jeżeli nie to okno startowe.
             {
-                //Pull up dialog
-                FragmentTransaction transaction = FragmentManager.BeginTransaction();
-                signUpDialog = new dialog_SignUp();
-                
-                signUpDialog.Show(transaction, "dialog fragment");
-                signUpDialog.mOnSignUpComplete += singUpDialog_mOnSingUpComplete;
-            };
-            mBtnSignIn.Click += (object sender, EventArgs args) =>
+                Intent intent = new Intent(this, typeof(mainView));
+                this.StartActivity(intent);
+                this.Finish();
+            }
+            else
             {
-                FragmentTransaction transaction = FragmentManager.BeginTransaction();
-                signInDialog = new dialog_sign_in();
-                
-                signInDialog.Show(transaction, "dialog fragment");
-                signInDialog.mOnSignInComplete += singInDialog_mOnSingInComplete;
-            };
+                // Set our view from the "main" layout resource
+                SetContentView(Resource.Layout.Main);
+
+                mBtnSignUp = FindViewById<Button>(Resource.Id.btnSignUp);
+                mBtnSignIn = FindViewById<Button>(Resource.Id.btnSignIn);
+                mProgressBar = FindViewById<ProgressBar>(Resource.Id.progressBar1);
+                mBtnSignUp.Click += (object sender, EventArgs args) =>
+                {
+                    //Pull up dialog
+                    FragmentTransaction transaction = FragmentManager.BeginTransaction();
+                    signUpDialog = new dialog_SignUp();
+
+                    signUpDialog.Show(transaction, "dialog fragment");
+                    signUpDialog.mOnSignUpComplete += singUpDialog_mOnSingUpComplete;
+                };
+                mBtnSignIn.Click += (object sender, EventArgs args) =>
+                {
+                    FragmentTransaction transaction = FragmentManager.BeginTransaction();
+                    signInDialog = new dialog_sign_in();
+
+                    signInDialog.Show(transaction, "dialog fragment");
+                    signInDialog.mOnSignInComplete += singInDialog_mOnSingInComplete;
+                };
+            }
             }
         
         void client_UploadValuesCompleted(object sender, UploadValuesCompletedEventArgs e)
@@ -162,7 +171,8 @@ namespace OFFroadRescue
             EditText mtxtpassword = signInDialog.View.FindViewById<EditText>(Resource.Id.txtPassowrd);
             RadioButton rbRememberMe = signInDialog.View.FindViewById<RadioButton>(Resource.Id.rb_rememberMe);
 
-            LogInModule lg = new LogInModule(mtxtusername.Text.ToString(), mtxtpassword.Text.ToString(), rbRememberMe.Checked);
+            LogInModule lg = new LogInModule();
+            lg.AddUserParams(mtxtusername.Text.ToString(), mtxtpassword.Text.ToString(), rbRememberMe.Checked);
 
             if (lg.LogIn())
                  {

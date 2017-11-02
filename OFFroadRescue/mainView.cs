@@ -29,8 +29,6 @@ namespace OFFroadRescue
         private ArrayAdapter mLeftAdapter;
         private List<string> mLeftDataSet;
        
-
-
         protected override void OnCreate(Bundle savedInstanceState)
         {
             // Create your application here
@@ -96,7 +94,7 @@ namespace OFFroadRescue
                     Toast.MakeText(ApplicationContext, "Naciśnięto Logout ", ToastLength.Long).Show();
                     //function to logout
                     //change activity to sing in / sing up activity
-                    Intent intent = new Intent(this, typeof(MainActivity));
+                    Intent intent = new Intent(this, typeof(MainActivity)); // i tutaj trzeba dodać że jak się wylogowuje to wpisuje w plik LogInData.xml false wtedy będzie sie mogło wrzucić okno do logowania
                     this.StartActivity(intent);
                     this.Finish();
                     break;
@@ -104,7 +102,6 @@ namespace OFFroadRescue
                     Toast.MakeText(ApplicationContext, "Naciśnięto coś z poza!", ToastLength.Long).Show();
                     break;
             }
-
             //Toast.MakeText(ApplicationContext, "Naciśnięto", ToastLength.Long).Show();
         }
         public override bool OnOptionsItemSelected(IMenuItem item)

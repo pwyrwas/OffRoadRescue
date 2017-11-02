@@ -66,6 +66,7 @@
     <Compile Include="MyActionBarDrawerToggle.cs" />
     <Compile Include="dialog_sign_in.cs" />
     <Compile Include="Resources\Class\LogInModule.cs" />
+    <Compile Include="Resources\Class\ServerConnectionManager.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -89,7 +90,9 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\values\Strings.xml" />
+    <AndroidResource Include="Resources\values\Strings.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\Icon.png" />

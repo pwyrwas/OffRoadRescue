@@ -22,7 +22,11 @@ namespace OFFroadRescue.Resources.Class
 
 
         // Sign to sLogIn and sPassword new values
-        public LogInModule(string login, string passowrd, bool rememberMe)
+        public LogInModule()
+        {
+            //empty constructor
+        }
+        public void AddUserParams(string login, string passowrd, bool rememberMe)
         {
             sLogIn = login;
             sPassword = passowrd;
@@ -32,40 +36,88 @@ namespace OFFroadRescue.Resources.Class
         // Prepare login process
         public bool LogIn()
         {
+            bool state = false;
             blogInState = true;
             if (brememberMe)
                 saveLoginData();
-            return true;
+
+            state = true;
+            return state;
         }
         public bool saveLoginData()
         {
             var doc = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
             XmlDocument xml = new XmlDocument();
+           
             string tempDoc = doc;
             doc = System.IO.Path.Combine(doc, "LogInfile.xml");
+            string[] listaPlikow = System.IO.Directory.GetFiles(tempDoc);
+            System.IO.File.Delete(doc);
+            //tutaj sprawdzać czy istnieje plik xml jeśli nie to stworzyć, zaktualizować dane lub utworzyć nowe, hasło w md5 (tak myślę) oraz login. i Opcja czy auto pamiętać cię.
             bool state = System.IO.File.Exists(doc);
             if (!state)
             {
                 try
                 {
                     System.IO.File.Create(doc).Dispose();
+
+                    //add XML declaration
+                    XmlNode docNode = xml.CreateXmlDeclaration("1.0", "UTF-8", null);
+                    xml.AppendChild(docNode);
+                    XmlElement login = (XmlElement)xml.AppendChild(xml.CreateElement("LogInData"));
+                   
+                    login.SetAttribute("RememberMe", "true");
+                    //User
+                    XmlElement user = xml.CreateElement("User");
+                    user.InnerText = sLogIn;
+                    login.AppendChild(user);
+
+                    //Password
+                    XmlElement passwd = xml.CreateElement("Password");
+                    passwd.InnerText = sPassword;
+                    login.AppendChild(passwd);
+                    /*
+                     * <LoginData RememberMe = "true">
+                     *      <User>LOGIN</User>
+                     *      <Password>HASLO</Password>
+                     * </LoginData>
+                     */
+                    xml.Save(doc);
+                    string text = xml.InnerXml.ToString();
+                    Console.WriteLine(text);
+
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e.ToString());
+                    return false;
                 }
-              
             }
-            XmlElement el = (XmlElement)xml.AppendChild(xml.CreateElement("Data"));
-            el.SetAttribute("Data1", "Data2");
-            xml.Save(doc);
-            string text = xml.InnerXml.ToString();
-
-            state = System.IO.File.Exists(doc);
-            string[] listaPlikow = System.IO.Directory.GetFiles(tempDoc);
-
-            
-
+            else
+            {
+                try
+                {
+                    xml.Load(doc);
+                    XmlNodeList xmlN = xml.SelectNodes("LogInData");
+                    foreach (XmlNode element in xmlN)
+                    {
+                        foreach (XmlElement el in element)
+                        {
+                            if (el.Name == "User")
+                                el.InnerText = sLogIn;
+                            if (el.Name == "Password")
+                                el.InnerText = sLogIn;
+                        }
+                    }
+                    // Get the values of child elements of a book.
+                    xml.Save(doc);
+                }catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                    return false;
+                }
+            }
+            //probably if we are in this place, everything is okay, and we can return possitive ;) - I think.... ;P - don't have idea to resolve it on another way.
             return true;
         }
         // get Login state
