@@ -23,8 +23,8 @@ namespace OFFroadRescue
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-
-            if (false) // jeżeli tutaj przeczytam w pliku LogInData XML że jest true dla remenber me to się loguje i wbijam prosto do mainView/ jeżeli nie to okno startowe.
+            LogInModule lg = new LogInModule();
+            if (lg.checkAutoLogin()) // jeżeli tutaj przeczytam w pliku LogInData XML że jest true dla remenber me to się loguje i wbijam prosto do mainView/ jeżeli nie to okno startowe.
             {
                 Intent intent = new Intent(this, typeof(mainView));
                 this.StartActivity(intent);

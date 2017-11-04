@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using System.Xml;
+using System.Xml.Linq;
+
+
 
 namespace OFFroadRescue.Resources.Class
 {
@@ -38,11 +32,56 @@ namespace OFFroadRescue.Resources.Class
         {
             bool state = false;
             blogInState = true;
-            if (brememberMe)
-                saveLoginData();
+
+            //save to xml data
+            saveLoginData();
 
             state = true;
             return state;
+        }
+        public bool setFalseRemeberMe()
+        {
+            //set remember Me to false after eg. logout
+            var doc = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+            doc = System.IO.Path.Combine(doc, "LogInfile.xml");
+            XDocument xDoc = XDocument.Load(doc);
+            var rM = xDoc.Descendants("LogInData")
+               .Where(t => (string)t.Attribute("RememberMe").Value != null)
+               .FirstOrDefault();
+            rM.SetAttributeValue("RememberMe", "False");
+            xDoc.Save(doc);
+            if (rM != null)
+                return true;
+            else
+                return false;
+        }
+        public bool checkAutoLogin()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            var doc = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+            doc = System.IO.Path.Combine(doc, "LogInfile.xml");
+            if (!System.IO.File.Exists(doc))
+            {
+                return false;
+            }
+            else
+            {
+           
+                bool end = false;
+                xmlDoc.Load(doc);
+                foreach (XmlNode xmlNode in xmlDoc.DocumentElement.Attributes["RememberMe"])
+                {
+                    if (xmlNode.Value == "True")
+                    {
+                        end = true;
+                    }
+                    else if(xmlNode.Value != "True")
+                    {
+                        end = false;
+                    }
+                }
+                return end;
+            }
         }
         public bool saveLoginData()
         {
@@ -52,7 +91,7 @@ namespace OFFroadRescue.Resources.Class
             string tempDoc = doc;
             doc = System.IO.Path.Combine(doc, "LogInfile.xml");
             string[] listaPlikow = System.IO.Directory.GetFiles(tempDoc);
-            System.IO.File.Delete(doc);
+            //System.IO.File.Delete(doc);
             //tutaj sprawdzać czy istnieje plik xml jeśli nie to stworzyć, zaktualizować dane lub utworzyć nowe, hasło w md5 (tak myślę) oraz login. i Opcja czy auto pamiętać cię.
             bool state = System.IO.File.Exists(doc);
             if (!state)
@@ -66,7 +105,7 @@ namespace OFFroadRescue.Resources.Class
                     xml.AppendChild(docNode);
                     XmlElement login = (XmlElement)xml.AppendChild(xml.CreateElement("LogInData"));
                    
-                    login.SetAttribute("RememberMe", "true");
+                    login.SetAttribute("RememberMe", brememberMe.ToString());
                     //User
                     XmlElement user = xml.CreateElement("User");
                     user.InnerText = sLogIn;
@@ -93,11 +132,29 @@ namespace OFFroadRescue.Resources.Class
                     return false;
                 }
             }
-            else
-            {
+            else    //else when LogInData.xml are exist. To modify User and Password data.
+            { 
                 try
                 {
-                    xml.Load(doc);
+                    // load XML file
+                    var xdoc = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+                    xdoc = System.IO.Path.Combine(doc, "LogInfile.xml");
+                    XDocument xDoc = XDocument.Load(doc);
+                    //acces to RemmeberMe atribute
+                    var rM = xDoc.Descendants("LogInData")
+                       .Where(t => (string)t.Attribute("RememberMe").Value != null)
+                       .FirstOrDefault();
+                    rM.SetAttributeValue("RememberMe", brememberMe.ToString());
+                    xDoc.Save(doc);
+                    //Acces to user and Password elements
+                    var user = xDoc.Descendants().Where(T => T.Name == "User").FirstOrDefault();
+                    var password = xDoc.Descendants().Where(T => T.Name == "Password").FirstOrDefault();
+                    //write new walues for login and password
+                    user.ReplaceNodes(sLogIn);
+                    password.ReplaceNodes(sPassword);
+
+                    xDoc.Save(doc); //save antother to LogInData.xml
+                  /*  xml.Load(doc);   //replaced by LINQ
                     XmlNodeList xmlN = xml.SelectNodes("LogInData");
                     foreach (XmlNode element in xmlN)
                     {
@@ -110,7 +167,7 @@ namespace OFFroadRescue.Resources.Class
                         }
                     }
                     // Get the values of child elements of a book.
-                    xml.Save(doc);
+                    xml.Save(doc);*/
                 }catch (Exception e)
                 {
                     Console.WriteLine(e.ToString());

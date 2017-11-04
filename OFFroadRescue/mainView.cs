@@ -15,6 +15,7 @@ using Android.Support.V7.App;
 using Android.Support.V4.Widget;
 using static Android.Support.V7.Internal.Widget.AdapterViewCompat;
 using static Android.Widget.AdapterView;
+using OFFroadRescue.Resources.Class;
 
 namespace OFFroadRescue
 {
@@ -94,6 +95,9 @@ namespace OFFroadRescue
                     Toast.MakeText(ApplicationContext, "Naciśnięto Logout ", ToastLength.Long).Show();
                     //function to logout
                     //change activity to sing in / sing up activity
+                    LogInModule lg = new LogInModule();
+                    lg.setFalseRemeberMe(); //set RememberMe to false - autoLogin to NoAutoLogin
+
                     Intent intent = new Intent(this, typeof(MainActivity)); // i tutaj trzeba dodać że jak się wylogowuje to wpisuje w plik LogInData.xml false wtedy będzie sie mogło wrzucić okno do logowania
                     this.StartActivity(intent);
                     this.Finish();

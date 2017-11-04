@@ -19,8 +19,8 @@ namespace OFFroadRescue.Resources.Class
     class ServerConnectionManager
     {
         String serverPath = "http://www.offroadresque.eu/";
-        String registrationPHP = "registration.php";
-        String loginPHP = "login.php";
+        String registrationPHP = "http://www.offroadresque.eu/registration.php";
+        String loginPHP = "http://www.offroadresque.eu/login.php";
 
         WebClient client;
 
