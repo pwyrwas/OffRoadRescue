@@ -29,4 +29,7 @@
     <string name ="passwordSI">Password</string>
     <string name ="rememberMeSi">Remember me !</string>
     <string name ="siSI">Sign In!</string>
+    <string name ="NeedLogin">Enter your login!</string>
+    <string name ="NeedPassword">Enter your password!</string>
+  
 </resources>

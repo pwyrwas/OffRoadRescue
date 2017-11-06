@@ -1516,6 +1516,12 @@ namespace OFFroadRescue
 			// aapt resource value: 0x7f0a0022
 			public const int LoginShouldhaveMinimum4Sign = 2131361826;
 			
+			// aapt resource value: 0x7f0a0029
+			public const int NeedLogin = 2131361833;
+			
+			// aapt resource value: 0x7f0a002a
+			public const int NeedPassword = 2131361834;
+			
 			// aapt resource value: 0x7f0a001b
 			public const int PasswordSingUp = 2131361819;
 			

@@ -1,24 +1,36 @@
-﻿using System;
+﻿using Android.App;
+using Android.Content;
+using Android.Graphics;
+using Android.Widget;
+using System;
+using System.Collections.Specialized;
 using System.Linq;
+using System.Net;
+using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
 
 
-
 namespace OFFroadRescue.Resources.Class
 {
-    class LogInModule
+    [Activity(Label = "OFFroadRescue", MainLauncher = true, Icon = "@drawable/icon")]
+    class LogInModule : Activity
     {
         public string sLogIn { get; set; }
         private string sPassword { get; set; }
         private bool brememberMe { get; set; }
         public bool blogInState { get; set; }
+        private dialog_sign_in lDialog;
+        //color to sign wrong wrote filed
+        public Color colorWrong = Color.ParseColor("#FFCDD2");             //red
+        public Color colorGood = Color.ParseColor("#ffffff");              //white
+        public Color colorAllGood = Color.ParseColor("#64FFDA");           //Green
 
 
         // Sign to sLogIn and sPassword new values
         public LogInModule()
         {
-            //empty constructor
+            
         }
         public void AddUserParams(string login, string passowrd, bool rememberMe)
         {
@@ -28,17 +40,85 @@ namespace OFFroadRescue.Resources.Class
         }
 
         // Prepare login process
-        public bool LogIn()
+        public bool LogIn(dialog_sign_in dialog)
         {
+            lDialog = dialog;
             bool state = false;
             blogInState = true;
 
-            //save to xml data
-            saveLoginData();
+            
 
-            state = true;
+                //save to xml data
+                saveLoginData();
+                logiInRequest();
+                state = true;
+          
             return state;
         }
+      
+        private void logiInRequest()
+        {
+            ServerConnectionManager SCM = new ServerConnectionManager();
+            
+            WebClient client = new WebClient();
+            Uri uri = new Uri("http://www.offroadresque.eu/login.php");
+            NameValueCollection parameters = new NameValueCollection();
+
+            parameters.Add("loguj", "loguj");
+            parameters.Add("login", sLogIn);
+            parameters.Add("haslo", sPassword);
+            
+            client.UploadValuesCompleted += client_UploadValuesCompleted;
+            client.UploadValuesAsync(uri, "POST", parameters);
+        }
+
+        private void client_UploadValuesCompleted(object sender, UploadValuesCompletedEventArgs e)
+        {
+            //lDialog.View.FindFocus();
+
+            //Android.Views.View sign = sign.viewsFindViewById<Android.Views.View>(Resource.Layout.dialog_sign_in);
+            try
+            {
+                //login
+                EditText mtxtusername = lDialog.View.FindViewById<EditText>(Resource.Id.txtLogin);
+                EditText mtxtpassword = lDialog.View.FindViewById<EditText>(Resource.Id.txtPassowrd);
+                RadioButton rbRememberMe = lDialog.View.FindViewById<RadioButton>(Resource.Id.rb_rememberMe);
+
+                string result = System.Text.Encoding.UTF8.GetString(e.Result);
+
+                if (result.Contains("Wrong data"))
+                {
+                    //nie działa czemu ?:(
+                    //Toast.MakeText(ApplicationContext, GetString(Resource.String.AllfieldsmustBefilledIn), ToastLength.Long).Show();
+                    mtxtusername.SetBackgroundColor(colorWrong);
+                    mtxtpassword.SetBackgroundColor(colorWrong);
+
+                }
+                else
+                {
+                    mtxtusername.SetBackgroundColor(colorGood);
+                    mtxtpassword.SetBackgroundColor(colorGood);
+                }
+
+               
+                //at least
+                if (result.Contains("Success"))
+                {
+                    //Toast.MakeText(ApplicationContext, GetString(Resource.String.AccountWasCreated), ToastLength.Long).Show();
+                    mtxtusername.SetBackgroundColor(colorAllGood);
+                    mtxtpassword.SetBackgroundColor(colorAllGood);
+                
+                    //don't knwo why colors not set at #64FFDA after all good field
+                    Thread.Sleep(1000);
+                    lDialog.Dismiss();
+                }
+            }
+            catch (Exception exc)
+            {
+                Console.WriteLine(exc.ToString());
+            }
+        }
+
         public bool setFalseRemeberMe()
         {
             //set remember Me to false after eg. logout

@@ -8,6 +8,7 @@ using System.Collections.Specialized;
 using Android.Content;
 using Android.Graphics;
 using OFFroadRescue.Resources.Class;
+using System.Linq;
 
 namespace OFFroadRescue
 {
@@ -173,17 +174,45 @@ namespace OFFroadRescue
 
             LogInModule lg = new LogInModule();
             lg.AddUserParams(mtxtusername.Text.ToString(), mtxtpassword.Text.ToString(), rbRememberMe.Checked);
+            //login
+            
+            string txtpasswd = mtxtpassword.Text;
+            string txtname = mtxtusername.Text;
 
-            if (lg.LogIn())
-                 {
-                     Intent intent = new Intent(this, typeof(mainView));
-                     this.StartActivity(intent);
-                     this.Finish();
-                 }
-                 else
-                 {
-                     //infrmation about error during singIn process.
-                 }
+            // set color if someting wrong
+            if (txtname.Count() < 1 && txtpasswd.Count() < 1)
+            {
+                mtxtusername.SetBackgroundColor(lg.colorWrong);
+                mtxtpassword.SetBackgroundColor(lg.colorWrong);
+                Toast.MakeText(ApplicationContext, GetString(Resource.String.AllfieldsmustBefilledIn), ToastLength.Long).Show();
+            }
+            else if (txtname.Count() < 1)
+            {
+                mtxtusername.SetBackgroundColor(lg.colorWrong);
+                mtxtpassword.SetBackgroundColor(lg.colorGood);
+                Toast.MakeText(ApplicationContext, GetString(Resource.String.NeedLogin), ToastLength.Long).Show();
+            }
+            else if (txtpasswd.Count() < 1)
+            {
+                mtxtpassword.SetBackgroundColor(lg.colorWrong);
+                mtxtusername.SetBackgroundColor(lg.colorGood);
+                Toast.MakeText(ApplicationContext, GetString(Resource.String.NeedPassword), ToastLength.Long).Show();
+            }
+            else
+            {
+                mtxtusername.SetBackgroundColor(lg.colorGood);
+                mtxtpassword.SetBackgroundColor(lg.colorGood);
+                if (lg.LogIn(signInDialog))
+                {
+                    // Intent intent = new Intent(this, typeof(mainView));
+                    // this.StartActivity(intent);
+                    // this.Finish();
+                }
+                else
+                {
+                    //infrmation about error during singIn process.
+                }
+            }
         }
 
         void createAccount(string registrate, string s_login, string s_password1, string s_password2, string s_email)

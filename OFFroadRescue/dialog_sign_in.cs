@@ -69,7 +69,7 @@ namespace OFFroadRescue
         {
             //User has clicked the sign up button 
             mOnSignInComplete.Invoke(this, new OnSignInEvenArgs(mtxtLogin.Text, mTxtPassword.Text, rb_rememberMe.Checked));
-            this.Dismiss();
+            //this.Dismiss();
         }
         public override void OnActivityCreated(Bundle savedInstanceState)
         {

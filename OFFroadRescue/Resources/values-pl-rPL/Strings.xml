@@ -29,4 +29,6 @@
   <string name ="passwordSI">Hasło</string>
   <string name ="rememberMeSi">Pamiętaj mnie !</string>
   <string name ="siSI">Zaloguj!</string>
+  <string name ="NeedLogin">Podaj nazwę użytkownika!</string>
+  <string name ="NeedPassword">Podaj swoje hasło!</string>
 </resources>
