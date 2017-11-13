@@ -31,5 +31,7 @@
     <string name ="siSI">Sign In!</string>
     <string name ="NeedLogin">Enter your login!</string>
     <string name ="NeedPassword">Enter your password!</string>
+    <string name ="logInSuccess">You are login!</string>
+    <string name ="badPassword">Your password are incorrect</string>
   
 </resources>

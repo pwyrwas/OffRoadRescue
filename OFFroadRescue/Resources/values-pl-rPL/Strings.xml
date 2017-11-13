@@ -31,4 +31,6 @@
   <string name ="siSI">Zaloguj!</string>
   <string name ="NeedLogin">Podaj nazwę użytkownika!</string>
   <string name ="NeedPassword">Podaj swoje hasło!</string>
+  <string name ="logInSuccess">Zalogowano!</string>
+  <string name ="badPassword">Twoje hasło jest niepoprawne</string>
 </resources>

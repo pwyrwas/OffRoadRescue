@@ -58,7 +58,7 @@ namespace OFFroadRescue
        
 
         public event EventHandler<OnSignUpEvenArgs> mOnSignUpComplete;
-
+        public event EventHandler<OnSignUpEvenArgs> seding;
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             base.OnCreateView(inflater, container, savedInstanceState);
@@ -74,6 +74,10 @@ namespace OFFroadRescue
             mBtnSignUp.Click += mBtnSignUp_Click;
             
             return view;
+        }
+        void sends(object sender, EventArgs e)
+        {
+            mOnSignUpComplete.Invoke(this, new OnSignUpEvenArgs(mtxtFirstName.Text, mTxtEmail.Text, mTxtPassword.Text, mTxtPassword2.Text));
         }
         void mBtnSignUp_Click(object sender, EventArgs e)
         {

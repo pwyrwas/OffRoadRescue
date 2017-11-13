@@ -23,11 +23,12 @@ namespace OFFroadRescue
         private ProgressBar mProgressBar;
         protected override void OnCreate(Bundle bundle)
         {
+            Intent intent = new Intent(this, typeof(mainView));
             base.OnCreate(bundle);
             LogInModule lg = new LogInModule();
             if (lg.checkAutoLogin()) // jeżeli tutaj przeczytam w pliku LogInData XML że jest true dla remenber me to się loguje i wbijam prosto do mainView/ jeżeli nie to okno startowe.
             {
-                Intent intent = new Intent(this, typeof(mainView));
+                
                 this.StartActivity(intent);
                 this.Finish();
             }
@@ -39,6 +40,7 @@ namespace OFFroadRescue
                 mBtnSignUp = FindViewById<Button>(Resource.Id.btnSignUp);
                 mBtnSignIn = FindViewById<Button>(Resource.Id.btnSignIn);
                 mProgressBar = FindViewById<ProgressBar>(Resource.Id.progressBar1);
+                
                 mBtnSignUp.Click += (object sender, EventArgs args) =>
                 {
                     //Pull up dialog
@@ -157,17 +159,12 @@ namespace OFFroadRescue
 
         void singUpDialog_mOnSingUpComplete(object sender, OnSignUpEvenArgs e)
         {
-            
             createAccount("rejestruj", e.FirstName, e.Password, e.Password2, e.Email);
-            //tutaj proces logowania
-
-            //Console.WriteLine(e.FirstName.ToString()); <- it's access to this data
             mProgressBar.Visibility = Android.Views.ViewStates.Visible;
-            Thread thread = new Thread(actLikeRequest);
-            thread.Start();
         }
         void singInDialog_mOnSingInComplete(object sender, OnSignInEvenArgs e)
         {
+           
             EditText mtxtusername = signInDialog.View.FindViewById<EditText>(Resource.Id.txtLogin);
             EditText mtxtpassword = signInDialog.View.FindViewById<EditText>(Resource.Id.txtPassowrd);
             RadioButton rbRememberMe = signInDialog.View.FindViewById<RadioButton>(Resource.Id.rb_rememberMe);
@@ -202,19 +199,26 @@ namespace OFFroadRescue
             {
                 mtxtusername.SetBackgroundColor(lg.colorGood);
                 mtxtpassword.SetBackgroundColor(lg.colorGood);
-                if (lg.LogIn(signInDialog))
-                {
-                    // Intent intent = new Intent(this, typeof(mainView));
-                    // this.StartActivity(intent);
-                    // this.Finish();
-                }
-                else
-                {
-                    //infrmation about error during singIn process.
-                }
+                logiInRequest(txtname, txtpasswd);
+          
             }
         }
+        private bool logiInRequest(string sLogIn, string sPassword)
+        {
+            ServerConnectionManager SCM = new ServerConnectionManager();
 
+            WebClient client = new WebClient();
+            Uri uri = new Uri("http://www.offroadresque.eu/login.php");
+            NameValueCollection parameters = new NameValueCollection();
+
+            parameters.Add("loguj", "loguj");
+            parameters.Add("login", sLogIn);
+            parameters.Add("haslo", sPassword);
+
+            client.UploadValuesCompleted += client_UploadValuesCompleted2;
+            client.UploadValuesAsync(uri, "POST", parameters);
+            return true;
+        }
         void createAccount(string registrate, string s_login, string s_password1, string s_password2, string s_email)
         {
 
@@ -230,14 +234,73 @@ namespace OFFroadRescue
 
             client.UploadValuesCompleted += client_UploadValuesCompleted;
             client.UploadValuesAsync(uri, "POST", parameters);
-
         }
-        private void actLikeRequest() //request to database in the future
+        private void client_UploadValuesCompleted2(object sender, UploadValuesCompletedEventArgs e)
+        {
+            //lDialog.View.FindFocus();
+            //color to sign wrong wrote filed
+            Color colorWrong = Color.ParseColor("#FFCDD2");             //red
+            Color colorGood = Color.ParseColor("#ffffff");              //white
+            Color colorAllGood = Color.ParseColor("#64FFDA");           //Green
+            try
+            {
+                //login
+                EditText mtxtusername = signInDialog.View.FindViewById<EditText>(Resource.Id.txtLogin);
+                EditText mtxtpassword = signInDialog.View.FindViewById<EditText>(Resource.Id.txtPassowrd);
+                RadioButton rbRememberMe = signInDialog.View.FindViewById<RadioButton>(Resource.Id.rb_rememberMe);
+
+                string result = System.Text.Encoding.UTF8.GetString(e.Result);
+
+                if (result.Contains("Wrong data") && mtxtpassword.Length() < 1)
+                {
+                    //nie działa czemu ?:(
+                    Toast.MakeText(ApplicationContext, GetString(Resource.String.AllfieldsmustBefilledIn), ToastLength.Long).Show();
+                    mtxtusername.SetBackgroundColor(colorWrong);
+                    mtxtpassword.SetBackgroundColor(colorWrong);
+                    
+
+                }
+                else if (result.Contains("Wrong data") && !(mtxtpassword.Length() > 1))
+                {
+                    Toast.MakeText(ApplicationContext, GetString(Resource.String.AllfieldsmustBefilledIn), ToastLength.Long).Show();
+                    mtxtusername.SetBackgroundColor(colorWrong);
+                    mtxtpassword.SetBackgroundColor(colorWrong);
+                }
+                else 
+                {
+                    mtxtusername.SetBackgroundColor(colorGood);
+                    mtxtpassword.SetBackgroundColor(colorGood);
+                }
+                if (result.Contains("Success"))
+                {
+                    Toast.MakeText(ApplicationContext, GetString(Resource.String.logInSuccess), ToastLength.Long).Show();
+                    mtxtusername.SetBackgroundColor(colorAllGood);
+                    mtxtpassword.SetBackgroundColor(colorAllGood);
+
+                    mProgressBar.Visibility = Android.Views.ViewStates.Visible;
+                    LogInModule lg = new LogInModule();
+                    lg.AddUserParams(mtxtusername.ToString(), mtxtpassword.ToString(), rbRememberMe.Checked);
+                    lg.saveLoginData();
+                    //don't knwo why colors not set at #64FFDA after all good field
+                    Thread.Sleep(1000);
+                    signInDialog.Dismiss();
+                    Thread thread = new Thread(logInSuccessProcess);
+                    thread.Start();
+                }
+            }
+            catch (Exception exc)
+            {
+                Console.WriteLine(exc.ToString());
+            }
+        }
+        private void logInSuccessProcess() //request to database in the future
         {
             //now it is for nothing ;)
-            RunOnUiThread(() => { mProgressBar.Visibility = Android.Views.ViewStates.Invisible; });
+            Intent intent = new Intent(this, typeof(mainView));
+            this.StartActivity(intent);
+            this.Finish();
         }
-       
+
     }
 }
 

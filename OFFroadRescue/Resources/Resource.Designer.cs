@@ -1582,6 +1582,9 @@ namespace OFFroadRescue
 			// aapt resource value: 0x7f0a000f
 			public const int abc_toolbar_collapse_description = 2131361807;
 			
+			// aapt resource value: 0x7f0a002c
+			public const int badPassword = 2131361836;
+			
 			// aapt resource value: 0x7f0a0013
 			public const int closeDrawer = 2131361811;
 			
@@ -1590,6 +1593,9 @@ namespace OFFroadRescue
 			
 			// aapt resource value: 0x7f0a0015
 			public const int header = 2131361813;
+			
+			// aapt resource value: 0x7f0a002b
+			public const int logInSuccess = 2131361835;
 			
 			// aapt resource value: 0x7f0a0025
 			public const int loginSI = 2131361829;
