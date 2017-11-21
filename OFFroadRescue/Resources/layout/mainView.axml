@@ -24,18 +24,10 @@
                 android:layout_height="wrap_content"
                 android:text="Support V7 Action Bar Drawer Toggle"
                 android:layout_centerInParent="true" />
-            <EditText
-                android:id="@+id/txtFirstName"
+          <FrameLayout
+                android:id="@+id/fragmentContainer"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:background="@drawable/edit_text_style"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="25dp"
-                android:hint="First Name"
-                android:paddingLeft="10dp"
-                android:textColor="#000" />
+                android:layout_height="match_parent" />
         </RelativeLayout>
         <ListView
             android:id="@+id/left_drawer"

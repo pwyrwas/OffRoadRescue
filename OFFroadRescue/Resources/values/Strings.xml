@@ -33,5 +33,5 @@
     <string name ="NeedPassword">Enter your password!</string>
     <string name ="logInSuccess">You are login!</string>
     <string name ="badPassword">Your password are incorrect</string>
-  
+    <string name ="apiKey">AIzaSyBQVOpKMSFlkDdA_oKklNBl_dIpVSoz3A4</string>
 </resources>

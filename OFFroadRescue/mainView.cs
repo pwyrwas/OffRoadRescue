@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 using Android.App;
 using Android.Content;
-
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
 using SupportToolbar = Android.Support.V7.Widget.Toolbar;
 using Android.Support.V7.App;
 using Android.Support.V4.Widget;
-using static Android.Support.V7.Internal.Widget.AdapterViewCompat;
-using static Android.Widget.AdapterView;
+using OFFroadRescue.Resources.Class;
+using OFFroadRescue.Resources.Fragments;
+using SupportFragment = Android.Support.V4.App.Fragment;
 using OFFroadRescue.Resources.Class;
 
 namespace OFFroadRescue
@@ -29,7 +25,11 @@ namespace OFFroadRescue
         //Create option on left drawer
         private ArrayAdapter mLeftAdapter;
         private List<string> mLeftDataSet;
-       
+        private SupportFragment mCurrentFragment;
+        private settingsFragment mSettingFragment;
+        private MainPage mMainPage;
+        private Stack<SupportFragment> mStackFragment;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             // Create your application here
@@ -39,8 +39,17 @@ namespace OFFroadRescue
             mToolbar = FindViewById<SupportToolbar>(Resource.Id.toolbar);
             mDrawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             mLeftDrawer = FindViewById<ListView>(Resource.Id.left_drawer);
-            
-           SetSupportActionBar(mToolbar);
+
+            mSettingFragment = new settingsFragment();
+            mMainPage = new MainPage();
+            mStackFragment = new Stack<SupportFragment>();
+            var trans = SupportFragmentManager.BeginTransaction();
+            trans.Add(Resource.Id.fragmentContainer, mMainPage, "mainPage");
+            trans.Add(Resource.Id.fragmentContainer, mSettingFragment, "SettingPage");
+            trans.Hide(mSettingFragment);
+            trans.Commit();
+            mCurrentFragment = mSettingFragment;//mMainPage;
+            SetSupportActionBar(mToolbar);
 
             mLeftDataSet = new List<string>();
             mLeftDataSet.Add("Settings");
@@ -65,7 +74,7 @@ namespace OFFroadRescue
 
             if (savedInstanceState != null)
             {
-                if(savedInstanceState.GetString("DrawerState") == "Opened")
+                if (savedInstanceState.GetString("DrawerState") == "Opened")
                 {
                     SupportActionBar.SetTitle(Resource.String.openDrawer);
                 }
@@ -89,7 +98,7 @@ namespace OFFroadRescue
                 case 0:
                     Toast.MakeText(ApplicationContext, "Naciśnięto Settings", ToastLength.Long).Show();
                     mDrawerLayout.CloseDrawer(mLeftDrawer);
-                     SupportActionBar.SetTitle(Resource.String.settingsDrawer);
+                    ShowFragment(mSettingFragment);
                     break;
                 case 1:
                     Toast.MakeText(ApplicationContext, "Naciśnięto Logout ", ToastLength.Long).Show();
@@ -108,6 +117,37 @@ namespace OFFroadRescue
             }
             //Toast.MakeText(ApplicationContext, "Naciśnięto", ToastLength.Long).Show();
         }
+        public override void OnBackPressed()
+        {
+            if (SupportFragmentManager.BackStackEntryCount > 0)
+            {
+                SupportFragmentManager.PopBackStack();
+                var trans = SupportFragmentManager.BeginTransaction();
+                trans.Hide(mCurrentFragment);
+                mCurrentFragment = mStackFragment.Pop();
+                trans.Show(mCurrentFragment);
+            }
+            else
+            {
+                base.OnBackPressed();
+            }
+
+        }
+        private void ShowFragment(SupportFragment fragment)
+        {
+            if (fragment.IsVisible) return;
+
+            SupportActionBar.SetTitle(Resource.String.settingsDrawer);
+            var trans = SupportFragmentManager.BeginTransaction();
+            trans.SetCustomAnimations(Resource.Animation.slide_right, Resource.Animation.slide_right, Resource.Animation.slide_right, Resource.Animation.slide_right);
+            trans.Hide(mCurrentFragment);
+            trans.Show(fragment);
+            trans.AddToBackStack(null);
+            trans.Commit();
+
+            mStackFragment.Push(mCurrentFragment);
+            mCurrentFragment = fragment;
+        }
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
             mDrawerToggle.OnOptionsItemSelected(item);
@@ -119,7 +159,8 @@ namespace OFFroadRescue
             {
                 outState.PutString("DrawerState", "Opened");
 
-            }else
+            }
+            else
             {
                 outState.PutString("DrawerState", "Closed");
             }
